@@ -21,7 +21,7 @@ users: { (payload.users map {
             ($$): $ unless $$ ~= "ssn" otherwise "****"
        },
        login_information: $.login_information mapObject {
-          ($$): $ unless $$ ~= "password" otherwise "****"
+          ($$): $ unless $$ ~= "password" otherwise "*****"
        }
      }
 }) }]]></dw:set-payload>
