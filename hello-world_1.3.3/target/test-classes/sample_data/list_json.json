@@ -1,0 +1,26 @@
+[
+  {
+    "productCode": "5423",
+    "size": "m",
+    "description": "Connect 2016",
+    "count": 151
+  },
+    {
+    "productCode": "2452",
+    "size": "m",
+    "description": "RAML",
+    "count": 23
+  },
+    {
+    "productCode": "4567",
+    "size": "xxl",
+    "description": "Connect 2016",
+    "count": 329
+  },
+    {
+    "productCode": "1256",
+    "size": "s",
+    "description": "RAML",
+    "count": 0
+  }
+]

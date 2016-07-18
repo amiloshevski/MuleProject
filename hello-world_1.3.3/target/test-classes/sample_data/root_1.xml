@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root>
+  <actors>
+    <actor>pero</actor>
+     <actor>cvetan</actor>
+  </actors>
+  <singers>
+    <singer>kazim</singer>
+  </singers>
+</root>

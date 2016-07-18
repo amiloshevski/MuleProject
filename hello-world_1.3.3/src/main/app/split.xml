@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
+    <vm:connector name="VM" validateConnections="true" doc:name="VM"/>
+    <flow name="splitFlow">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/split" metadata:id="3edeae56-e0f1-448c-844e-de39071b4f20" doc:name="HTTP"/>
+        <dw:transform-message metadata:id="4eee3515-80b6-4b81-9e33-9b3f937551df" doc:name="Transform Message">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/xml
+%namespace ns0 http://www.foo.org/
+---
+{
+	root: {
+		actors: {
+			(payload.root.actors.*actor map ((actor , indexOfActor) -> {
+				actor: actor
+			}))
+		},
+		ns0#singers: {
+			(payload.root.ns0#singers.*ns0#singer map ((singer , indexOfSinger) -> {
+				ns0#singer: singer
+			}))
+		}
+	}
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <splitter expression="#[xpath3('//actor'),payload, 'NODSET']" doc:name="Splitter"/>
+        <vm:outbound-endpoint exchange-pattern="one-way" path="VM" connector-ref="VM" doc:name="VM"/>
+    </flow>
+    <flow name="splitFlow1">
+        <vm:inbound-endpoint exchange-pattern="one-way" path="VM" connector-ref="VM" doc:name="VM"/>
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+    </flow>
+</mule>

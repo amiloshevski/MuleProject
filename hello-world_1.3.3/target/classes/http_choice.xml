@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+    xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+    xmlns:spring="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+    <http:listener-config name="HTTP_Listener_choice" host="localhost" port="8082" doc:name="HTTP Listener Configuration"/>
+ 
+    <flow name="ListenAndChoose">
+      <http:listener config-ref="HTTP_Listener_choice" path="/http_choice" doc:name="HTTP"/>
+        <logger message="InputParameter****#[message.inboundProperties.'http.query.params'.choice]" level="INFO" doc:name="Logger"/>
+       <expression-filter expression="#[message.inboundProperties.'http.request.uri' != '/favicon.ico']" doc:name="Expression"/>
+        <set-variable variableName="language" value="#[message.inboundProperties.'http.query.params'.language]" doc:name="Set Language Variable"/>   
+      <choice doc:name="Choice">
+          <when expression="#[flowVars.language == 'Spanish']">
+                <set-payload value="Hola!" doc:name="Spanish"/>
+          </when>
+            <when expression="#[flowVars.language == 'French']">
+                <set-payload value="Bonjour!" doc:name="French"/>
+            </when>
+          <otherwise>
+                <set-variable variableName="language" value="English" doc:name="Variable"/>
+                <set-payload value="Hello!" doc:name="Set Payload"/>
+          </otherwise>       
+       </choice>
+       <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+    </flow>
+ </mule>

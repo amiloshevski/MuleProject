@@ -1,0 +1,11 @@
+{
+    "inputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "splitter"
+        }
+    },
+    "outputMessageMetadata": {},
+    "id": "caf63775-0a80-4eaa-a254-3ade64c68544",
+    "version": "5.2.0.0"
+}

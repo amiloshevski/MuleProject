@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd">
+    <flow name="groovyscriptexampleFlow">
+        <scripting:component doc:name="Groovy">
+            <scripting:script engine="Groovy">def region = "UNKNOWN"
+def state = payload['state']
+if (state != null) {
+ state = state.toUpperCase()
+}
+println "State to lookup is: " + state
+switch (state) {
+        case ["CT","ME","MA","NH","VT","RI","NY","NJ","DE","DC","MD","NH"]:
+            region = "North East"
+            break
+        case ["AL","AR","FL", "GA","LA" ,"SC","NC","TN","TX"]:
+            region = "South East"
+            break
+        case ["ID","IL", "IA","KS","MT", "WY","ND","SD","OH" ]:
+            region = "Mid West"
+            break
+        case ["AZ","CO","OK","NM", "NV"]:
+            region = "South West"
+            break
+        case ["CA","HI","WA","OR", "AK"]:
+            region = "West Coast"
+            break
+    }
+return ["region":region]</scripting:script>         </scripting:component>
+		<logger message="Region is : #[payload.region]" level="INFO" doc:name="Logger"/>
+    </flow>
+</mule>

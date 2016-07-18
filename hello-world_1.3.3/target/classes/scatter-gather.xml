@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+    <spring:beans>
+        <spring:bean id="Bean" name="Bean" class="Flight"/>
+    </spring:beans>
+    <flow name="scatter-gatherFlow">
+        <scatter-gather doc:name="Scatter-Gather" timeout="5000">
+            <threading-profile maxThreadsActive="1" poolExhaustedAction="RUN"/>
+            <flow-ref name="filter" doc:name="flightBroker1"/>
+            <flow-ref name="HelloWorldFlow1" doc:name="flightBroker2"/>
+            <flow-ref name="ListenAndChoose" doc:name="flightBroker3"/>
+        </scatter-gather>
+    </flow>
+</mule>

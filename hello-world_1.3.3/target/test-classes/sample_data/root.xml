@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root>
+  <actors>
+    <actor>????</actor>
+  </actors>
+  <ns0:singers xmlns:ns0="http://www.foo.org/">
+    <ns0:singer>????</ns0:singer>
+  </ns0:singers>
+</root>
